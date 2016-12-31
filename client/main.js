@@ -49,7 +49,14 @@ Template.hello.events({
       sort:{
         createdOn:-1
       }
-    })
+    }),
+    getUser: function(user_id){
+      var user = Meteor.users.findOne({_id:user_id})
+      if (user) {
+        return user.username;
+      }
+      else return "anonym";
+    }
   });
   
   Template.images.events({
@@ -87,11 +94,14 @@ Template.hello.events({
       img_src = event.target.img_src.value;
       img_alt = event.target.img_alt.value;
 
-      Images.insert({
-        img_src:img_src,
-        img_alt:img_alt,
-        createdOn: new Date()
-      });
+      if(Meteor.user()){
+        Images.insert({
+          img_src:img_src,
+          img_alt:img_alt,
+          createdOn: new Date(),
+          createdBy: Meteor.user()._id
+        });
+      }
       $("#image_add_form").modal('hide');
       console.log("src: "+img_src+" src_alt: "+img_alt);
       return false;
