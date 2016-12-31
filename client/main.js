@@ -6,6 +6,9 @@ Images = new Mongo.Collection('images');
 
 console.log('main.js (client ) says -  nb images : ' + Images.find().count());
 
+Accounts.ui.config({
+  passwordSignupFields:"USERNAME_AND_EMAIL"
+});
 
 Template.hello.onCreated(function helloOnCreated() {
   // counter starts at 0
@@ -20,8 +23,8 @@ Template.hello.helpers({
 Template.body.helpers({
   username:function(){
     if(Meteor.user()){
-    console.log("toi",Meteor.user().emails[0]);
-    return Meteor.user().emails[0].address
+    console.log("toi",Meteor.user().username);
+    return Meteor.user().username
     }
     else
       return "<anonym>";
