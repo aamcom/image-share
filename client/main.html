@@ -1,0 +1,72 @@
+<head>
+  <title>test-week2</title>
+</head>
+
+<body>
+  {{> image_add_form}}
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+      {{> loginButtons}}
+      </div>
+    </nav>
+  
+ 
+  <div class="container">
+    <h1>Andrew test Meteor - salut {{username}}</h1>
+    Coursera / dev appli album image / dec 2016<br>
+    Nb images : {{nbimages}}
+    {{> images}}
+  </div>
+</body>
+
+<template name="hello">
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="image_add_form">
+  <div class="modal fade" id="image_add_form">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+
+          </div>          
+          <div class="modal-body">
+            <form class="js-add-image">
+              <input type="text" name="img_src"/><br>
+              <input type="text" name="img_alt"/>
+              <button class="btn btn-success">save</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-warning" data-dismiss="modal">cancel</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+</template>
+
+<template name="images">
+  {{#if currentUser}}
+  <button class="btn btn-success js-show-image-form">add image</button>
+  {{/if}}
+  <div class="row">
+    {{#each images}}
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id={{_id}}>
+      <div class="thumbnail">
+        <img  class="js-image thumbnail-img"
+          src="{{img_src}}" 
+          alt="{{img_alt}}"/>
+      </div>
+
+      <div class="caption">
+          <p> {{img_alt}}</p>
+          <button class="js-del-image btn btn-warning">delete</button>
+      </div>
+    </div> <!-- col --> 
+    {{/each}}
+  </div>
+</template>
