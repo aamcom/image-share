@@ -5,10 +5,29 @@ import { Session } from 'meteor/session'
 import './main.html';
 Images = new Mongo.Collection('images');
 
-console.log('main.js (client ) says -  nb images : ' + Images.find().count());
-
 Accounts.ui.config({
   passwordSignupFields:"USERNAME_AND_EMAIL"
+});
+
+console.log('main.js (client ) says -  nb images : ' + Images.find().count());
+
+//Faire un scroll Infini (genre facebook) 
+Session.set("imageLimit", 8);
+nbImageSup = 4;
+lastScrollTop = 0;
+
+$(window).scroll(function(event){
+  //Test si on est au bas de la page (a 100 pixels)
+  if ( $(window).scrollTop() + $(window).height() >  $(document).height() -100 ){
+    var scrollTop = $(this).scrollTop();
+    
+    if (scrollTop > lastScrollTop){
+      console.log("bas de page :"+new Date());
+      Session.set("imageLimit", Session.get("imageLimit")+nbImageSup);
+    }
+    lastScrollTop = scrollTop;
+  }
+  
 });
 
 Template.hello.onCreated(function helloOnCreated() {
@@ -51,10 +70,12 @@ Template.body.helpers({
     
     images: function() {
       if(Session.get("userFilter")) {
-        return Images.find({createdBy:Session.get("userFilter")},{sort:{createdOn:-1}})
+        console.log('lim cas1:'+Session.get("imageLimit"));
+        return Images.find({createdBy:Session.get("userFilter")},{sort:{createdOn:-1},limit:Session.get("imageLimit")})
       }
       else {
-        return Images.find({},{sort:{createdOn:-1}})
+        console.log('lim cas2:'+Session.get("imageLimit"));
+        return Images.find({},{sort:{createdOn:-1},limit:Session.get("imageLimit")})
       }
     },
     filtering_images:function(){

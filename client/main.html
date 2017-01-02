@@ -60,7 +60,7 @@
   
   <div class="row">
     {{#each images}}
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id={{_id}}>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id={{_id}}>
       <div class="thumbnail">
         <img  class="js-image thumbnail-img"
           src="{{img_src}}" 
@@ -68,12 +68,12 @@
       </div>
 
       <div class="caption">
-          <p>{{img_alt}} <!--({{rating}})--></p> 
-          <!-- <p>{{>starsRating mutable=true class='js-rate-image' id=_id}}</p> -->
+          <p>{{img_alt}} ({{rating}})</p> 
+          <p>{{>starsRating mutable=true class='js-rate-image' id=_id}}</p>
           <p>créée par : <a href="#" class="js-set-image-filter">{{getUser createdBy}}</a> le : {{createdOn}}</p>
           <button class="js-del-image btn btn-warning">delete</button>
       </div>
-    </div> <!-- col --> 
+    </div> <!-- col -->  
     {{/each}}
   </div>
 </template>
