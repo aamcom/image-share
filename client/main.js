@@ -19,8 +19,16 @@ Template.hello.onCreated(function helloOnCreated() {
 Template.hello.helpers({
   counter() {
     return Template.instance().counter.get();
+  }
+});
+
+Template.hello.events({
+  'click button'(event, instance) {
+    // increment the counter when button is clicked
+    instance.counter.set(Images.find().count());
   },
 });
+
 Template.body.helpers({
   username:function(){
     if(Meteor.user()){
@@ -38,12 +46,6 @@ Template.body.helpers({
   }
 });
 
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(Images.find().count());
-  },
-});
 
   Template.images.helpers({
     
@@ -100,17 +102,16 @@ Template.hello.events({
     'click .js-unset-image-filter': function(event) {
       Session.set("userFilter",undefined)
       console.log(Session.get("userFilter"))
+    },
+    'click .js-rate-image': function(event) {
+      var rating = $(event.currentTarget).data("userrating");
+      console.log("rating:"+rating);
+      var image_id = this.id;
+      console.log("image_id:"+image_id);
+      Images.update({_id:image_id},
+                      {$set:{rating:rating}});
     }
   })
-  if (Meteor.isClient) {
-    console.log("main.js (client) says - I am client");
-    //if (Images.find().count() == 0) 
-    //  console.log("main.js (client) says - Images 0");
-    //console.log("main.js (client) says - Images : ", Images);
-  }
-  if (Meteor.isServer) {
-    console.log("main.js (client) says - I am server")
-  }
 
   Template.image_add_form.events({
     'submit .js-add-image':function(event){
@@ -131,3 +132,14 @@ Template.hello.events({
       return false;
     }
   })
+
+// test si client ou serveur ... inutile 
+  if (Meteor.isClient) {
+    console.log("main.js (client) says - I am client");
+    //if (Images.find().count() == 0) 
+    //  console.log("main.js (client) says - Images 0");
+    //console.log("main.js (client) says - Images : ", Images);
+  }
+  if (Meteor.isServer) {
+    console.log("main.js (client) says - I am server")
+  }

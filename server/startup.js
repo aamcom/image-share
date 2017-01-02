@@ -4,7 +4,8 @@ if (Meteor.isServer) {
     Meteor.startup(function(){
         if (Images.find().count() == 0) 
             for(i=100;i<1000;i++){
-                var st= "IMG_0"+i+".JPG";
+                //var st= "IMG_0"+i+".JPG";
+                var st= i+".jpg";
                 Images.insert(
                     {
                         img_src:st,
