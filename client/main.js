@@ -45,11 +45,18 @@ Template.hello.events({
 });
 
   Template.images.helpers({
-    images:Images.find({},{
-      sort:{
-        createdOn:-1
+    /*
+    images: function() {
+      if(Session.get("userFilter")) {
+        return Images.find({},{sort:{createdOn:-1}})
       }
-    }),
+      else {
+        return Images.find({},{sort:{createdOn:-1}})
+      }
+    },*/
+    images: function() {
+        return Images.find({},{sort:{createdOn:-1}})
+    },
     getUser: function(user_id){
       var user = Meteor.users.findOne({_id:user_id})
       if (user) {
@@ -66,16 +73,17 @@ Template.hello.events({
     },
     'click .js-del-image': function(event) {
       var image_id = this._id;
-      
       $("#"+image_id).hide('slow',function () {
-        
         console.log('del:',image_id);
         Images.remove({"_id":image_id});
-      })
-      
+      })    
     },
     'click .js-show-image-form': function(event) {
       $("#image_add_form").modal('show');
+    },
+    'click .js-set-image-filter': function(event) {
+      Session.set("userFilter",this.createdBy)
+      console.log(Session.get("userFilter"))
     }
   })
   if (Meteor.isClient) {
