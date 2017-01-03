@@ -1,17 +1,44 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { Session } from 'meteor/session'
 
-import './main.html';
-//Images = new Mongo.Collection('images');
+//Routes
 
+Router.configure({
+  layoutTemplate: 'ApplicationLayout'
+});
+
+Router.route('/', function () {
+  this.render('hello',{
+    to:"main"
+  });
+});
+
+Router.route('/images', function () {
+  this.render('navbar',{
+    to:"haut"
+  });
+  this.render('images',{
+    to:"main"
+  });
+});
+Router.route('/image/:_id', function () {
+  this.render('navbar',{
+    to:"haut"
+  });
+  this.render('image',{
+    to:"main",
+    data:function(){
+      return Images.findOne({_id:this.params._id})
+    }
+  });
+});
+
+// Acounts config
 Accounts.ui.config({
   passwordSignupFields:"USERNAME_AND_EMAIL"
 });
 
 console.log('main.js (client ) says -  nb images : ' + Images.find().count());
 
-//Faire un scroll Infini (genre facebook) 
+// Faire un scroll Infini (genre facebook) 
 Session.set("imageLimit", 8);
 nbImageSup = 4;
 lastScrollTop = 0;
@@ -56,12 +83,6 @@ Template.body.helpers({
     }
     else
       return "<anonym>";
-  },
-  nbimages:function(){
-    if(Images.find().count())
-      return Images.find().count()
-    else 
-      return -1;
   }
 });
 
@@ -77,6 +98,12 @@ Template.body.helpers({
         console.log('lim cas2:'+Session.get("imageLimit"));
         return Images.find({},{sort:{createdOn:-1},limit:Session.get("imageLimit")})
       }
+    },
+    nbimages:function(){
+      if(Images.find().count())
+        return Images.find().count()
+      else 
+        return -1;
     },
     filtering_images:function(){
       if(Session.get("userFilter"))
