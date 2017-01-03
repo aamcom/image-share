@@ -3,7 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session'
 
 import './main.html';
-Images = new Mongo.Collection('images');
+//Images = new Mongo.Collection('images');
 
 Accounts.ui.config({
   passwordSignupFields:"USERNAME_AND_EMAIL"
