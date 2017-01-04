@@ -25,3 +25,6 @@ meteor remove insecure
 
 meteor npm iron:router
 
+#bug :
+Lorsqu'on refresh la page detail d'une image ... elle est cassée
+(seulement pour les images dans public / pas celles externes http://...)

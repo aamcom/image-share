@@ -48,7 +48,7 @@ $(window).scroll(function(event){
   if ( $(window).scrollTop() + $(window).height() >  $(document).height() -100 ){
     var scrollTop = $(this).scrollTop();
     
-    if (scrollTop > lastScrollTop){
+    if (scrollTop > lastScrollTop+5){  // le +5 est optionnel , c'est pour tenter de ne pas recevoir trop de trigers
       console.log("bas de page :"+new Date());
       Session.set("imageLimit", Session.get("imageLimit")+nbImageSup);
     }
