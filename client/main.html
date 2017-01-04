@@ -43,7 +43,7 @@
     {{#if currentUser}}
     <button class="btn btn-success js-show-image-form">add image</button>
     {{/if}}
-
+    {{> image_add_form}}
     {{#if filtering_images}}
     <p>Voici les images de {{getFilterUser}} (<a href="#" class="js-unset-image-filter">voir toutes les images</a>) </p>
     {{/if}}
